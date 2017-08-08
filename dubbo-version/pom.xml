@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cn.edu.wuj</groupId>
+	<artifactId>dubbo-version</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<dubbo.version>2.5.3</dubbo.version>
+		<zookeeper.version>3.3.3</zookeeper.version>
+		<zkclient.version>0.1</zkclient.version>
+		<spring.version>3.1.4.RELEASE</spring.version>
+		<junit.version>4.11</junit.version>
+		<dubbo.api.version>1.0.0-SNAPSHOT</dubbo.api.version>
+		<druid.version>1.0.18</druid.version>
+		<mysql.version>5.1.35</mysql.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.itcast.dubbo</groupId>
+				<artifactId>dubbo-api</artifactId>
+				<version>${dubbo.api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>dubbo</artifactId>
+				<version>${dubbo.version}</version>
+				<exclusions>
+					<exclusion>
+						<!-- 排除传递spring依赖 -->
+						<artifactId>spring</artifactId>
+						<groupId>org.springframework</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.1.34</version>
+			</dependency>
+
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>2.9.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${zookeeper.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.sgroschupf</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>${zkclient.version}</version>
+			</dependency>
+		</dependencies>
+
+
+	</dependencyManagement>
+</project>

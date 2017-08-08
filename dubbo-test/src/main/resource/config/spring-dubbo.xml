@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:aop="http://www.springframework.org/schema/aop" 
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans.xsd 
+       http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+       http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+        
+    <!-- ======================================================= -->
+    <!-- 				【dubbo服务端配置】 						 -->
+    <!-- ======================================================= -->
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="dubbo-client-test" />
+
+	<!-- 配置注册中心 -->
+    <dubbo:registry id="zkNbms" address="zookeeper://nbmszk1:2117?backup=nbmszk2:2118,nbmszk3:2119" group="dubbo" />
+
+    <!-- 客户端连接超时时间以及接超时后的重试次数 -->
+    <dubbo:consumer timeout="1000" retries="1" />
+
+	<dubbo:reference id="userService" interface="cn.itcast.dubbo.service.UserService" check="false">
+		<dubbo:method name="updateProductStock" loadbalance="myload">
+		</dubbo:method>
+	</dubbo:reference>
+	
+</beans>
