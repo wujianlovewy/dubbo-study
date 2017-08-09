@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cn.edu.wj.util.SimpleLock;
 import cn.edu.wj.util.StockConst;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -30,6 +31,7 @@ public class JedisTest {
     
     final CountDownLatch startLatch = new CountDownLatch(1);
 	final CountDownLatch endLatch = new CountDownLatch(StockConst.Thread_NUM);
+	final SimpleLock lock = new SimpleLock();
     
 	@Before
     public void before(){
@@ -46,6 +48,42 @@ public class JedisTest {
     		}
     	}
     }
+	
+	@Test
+	public void lockTest(){
+		long startTime = System.currentTimeMillis();
+    	for(int i=0;i<StockConst.Thread_NUM;i++){
+	    	new Thread(){
+	    		@Override
+	    		public void run(){
+	    			try {
+						startLatch.await();
+						lock.lock();
+						int result = skillAmt(5);
+		    			System.out.println("支付结果: "+Thread.currentThread().getName()+" - "+result);
+		    			if(result==0){
+		    				System.out.println(Thread.currentThread().getName()+" 抢购失败!");
+		    			}else if(result>0){
+		    				System.out.println(Thread.currentThread().getName()+" 抢购成功!");
+		    			}
+		    			endLatch.countDown();
+					} catch (Exception e) {
+						e.printStackTrace();
+					} finally{
+						lock.unlock();
+					}
+	    		}
+	    	}.start();
+    	}
+    	startLatch.countDown();
+    	try {
+    		endLatch.await();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	System.out.println("redis+lock秒杀总共耗时【"+(System.currentTimeMillis()-startTime)+"】毫秒");
+	}
     
     @Test
     public void mainTest(){
