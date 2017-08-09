@@ -15,10 +15,16 @@
 		<dubbo.api.version>1.0.0-SNAPSHOT</dubbo.api.version>
 		<druid.version>1.0.18</druid.version>
 		<mysql.version>5.1.35</mysql.version>
+		<redisson.version>2.10.0</redisson.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson</artifactId>
+				<version>${redisson.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>cn.itcast.dubbo</groupId>
 				<artifactId>dubbo-api</artifactId>
