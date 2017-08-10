@@ -16,6 +16,7 @@
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <property name="maxIdle" value="${redis.maxIdle}"/> <!--最大空闲数-->
         <property name="maxTotal" value="${redis.maxTotal}"/><!--最大分配数-->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}"/><!--  -->
     </bean>
 
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">

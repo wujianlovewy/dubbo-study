@@ -1,12 +1,10 @@
 package cn.edu.wj.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.itcast.dubbo.pojo.ProductBean;
-import cn.itcast.dubbo.service.UserService;
 
 @Controller
 public class HelloController {
