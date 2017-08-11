@@ -55,12 +55,9 @@ public class MyLoadBalance extends AbstractLoadBalance{
             for (Invoker<T> invoker : invokers) {
                 for (int i = 0; i < replicaNumber / 4; i++) {
                 	String fullUrl = invoker.getUrl().toFullString();
-                	StringBuffer buffer = new StringBuffer();
-                	buffer.append(fullUrl.substring(0, fullUrl.indexOf("timestamp")));
-                	String timeStamp = fullUrl.substring(fullUrl.indexOf("timestamp"));
-                	buffer.append(timeStamp.substring(timeStamp.indexOf("&")+1));
-                	System.out.println("fulURL: "+buffer.toString());
-                    byte[] digest = md5(buffer.toString());
+                	fullUrl = fullUrl.substring(0, fullUrl.indexOf("pid"));
+                	System.out.println("fulURL: "+fullUrl);
+                    byte[] digest = md5(fullUrl);
                     for (int h = 0; h < 4; h++) {
                         long m = hash(digest, h);
                         virtualInvokers.put(m, invoker);
@@ -74,6 +71,7 @@ public class MyLoadBalance extends AbstractLoadBalance{
         }
 
         public Invoker<T> select(Invocation invocation) {
+        	//需要重写toString方法
             String key = toKey(invocation.getArguments());
             byte[] digest = md5(key);
             Invoker<T> invoker = sekectForKey(hash(digest, 0));
