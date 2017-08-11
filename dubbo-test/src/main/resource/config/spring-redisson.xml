@@ -14,11 +14,9 @@
 		http://redisson.org/schema/redisson  
         http://redisson.org/schema/redisson/redisson.xsd">
 		
-	<context:property-placeholder location="classpath:redis.properties" />
-
-    <redisson:client id="redissonClient">
-    	<redisson:single-server address="redis://10.148.181.134:6390" />
-    </redisson:client>
-    		
+	<bean id="lockTemplate" class="cn.edu.wj.factory.DistributedLockFactoryBean">  
+    	<property name="mode" value="SINGLE"/>  
+	</bean>  	
+	
 </beans>
         

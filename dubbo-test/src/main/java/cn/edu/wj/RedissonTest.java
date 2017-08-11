@@ -10,18 +10,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import cn.edu.wj.factory.DistributedLockCallback;
+import cn.edu.wj.factory.DistributedLockTemplate;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:config/spring-redisson.xml" })
 public class RedissonTest {
 
 	@Autowired
-	private RedissonClient redissonClient;
+	DistributedLockTemplate lockTemplate;
 	
 	@Test
 	public void test(){
-		long cnt = redissonClient.getKeys().count();
-		System.out.println("key cnt: "+cnt);
+		this.lockTemplate.lock(new DistributedLockCallback<Object>() {
+			@Override
+			public Object process() {
+				System.out.println("你好");
+				return null;
+			}
+			@Override
+			public String getLockName() {
+				return "locktest";
+			}
+		});
+		
 	}
 	
 	public static void main(String[] args) throws Exception {
