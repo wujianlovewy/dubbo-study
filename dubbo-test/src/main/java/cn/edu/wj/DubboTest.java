@@ -14,14 +14,19 @@ import com.alibaba.dubbo.config.RegistryConfig;
 
 public class DubboTest {
 
+	/**
+	 * 集群环境下dubbo才会调用负载策略
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		ApplicationConfig config = new ApplicationConfig();
-		config.setName("dubbo-b");
+		config.setName("dubbo");
 		
 		List<MethodConfig> methods = new ArrayList<MethodConfig>();
 		MethodConfig method = new MethodConfig();
-		method.setLoadbalance("consistenthash");
+		method.setLoadbalance("myload");
 		method.setName("updateProductStock");
+		methods.add(method);
 		
 		ReferenceConfig<UserService> referenceConfig = new ReferenceConfig<UserService>();
 		referenceConfig.setInterface(UserService.class);
@@ -29,7 +34,6 @@ public class DubboTest {
 		referenceConfig.setMethods(methods);
 		
 		ProtocolConfig protocolConfig = new ProtocolConfig();
-		protocolConfig.setPort(20880);
 		protocolConfig.setName("dubbo");
 		
 		RegistryConfig registryConfig = new RegistryConfig();
@@ -42,7 +46,7 @@ public class DubboTest {
 		ProductBean productBean1 = new ProductBean();
 		productBean1.setId(10);
 		ProductBean productBean2 = new ProductBean();
-		productBean2.setId(22);
+		productBean2.setId(1);
 		
 		for(int i=0;i<10;i++){
 			userService.updateProductStock(productBean1);
