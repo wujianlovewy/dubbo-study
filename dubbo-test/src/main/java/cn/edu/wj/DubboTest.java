@@ -14,9 +14,15 @@ import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
 
 public class DubboTest {
-
 	
 	public static void main(String[] args) throws Exception {
+		testUserId();
+	}
+	
+	/**
+	 * 测试userID生成
+	 */
+	public static void testUserId() throws Exception{
 		ApplicationConfig config = new ApplicationConfig();
 		config.setName("dubbo");
 		
@@ -35,28 +41,31 @@ public class DubboTest {
 		referenceConfig.setRegistry(registryConfig);
 		final UserService userService = referenceConfig.get();
 		System.out.println(userService);
-		int count = 10000;
-		final CountDownLatch end = new CountDownLatch(count);
-		final CountDownLatch start = new CountDownLatch(1);
+		int count = 100;
+		int m = 100;
+		int countLatch = count * m;
 		long startTime = System.currentTimeMillis();
-		for(int i=0;i<count;i++){
-			new Thread(){
-				@Override
-				public void run(){
-					try {
-						start.await();
-						System.out.println(userService.generateId());
-						end.countDown();
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+		final CountDownLatch end = new CountDownLatch(countLatch);
+		for(int n=0;n<m;n++){
+			final CountDownLatch start = new CountDownLatch(1);
+			for(int i=0;i<count;i++){
+				new Thread(){
+					@Override
+					public void run(){
+						try {
+							start.await();
+							System.out.println(userService.generateId());
+							end.countDown();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			}.start();
+				}.start();
+			}
+			start.countDown();
 		}
-		start.countDown();
 		end.await();
 		System.out.println(System.currentTimeMillis()-startTime);
-		
 	}
 	
 	/**
