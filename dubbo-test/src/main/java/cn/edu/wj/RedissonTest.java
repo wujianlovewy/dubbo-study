@@ -44,12 +44,8 @@ public class RedissonTest {
         RedissonClient redisson =  Redisson.create(config);
         RLock lock = redisson.getLock("haogrgr");
         lock.lock();
-        try {
-            System.out.println("hagogrgr");
-        }
-        finally {
-            lock.unlock();
-        }
+        System.out.println("hagogrgr");
+        lock.unlock();
 
         redisson.shutdown();
 

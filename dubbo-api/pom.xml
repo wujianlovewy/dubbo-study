@@ -1,6 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+   <parent>
+		<groupId>cn.edu.wuj</groupId>
+		<artifactId>dubbo-version</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+  </parent>
   <groupId>cn.itcast.dubbo</groupId>
   <artifactId>dubbo-api</artifactId>
   <version>1.0.0-SNAPSHOT</version>
+  
+  <dependencies>
+  		<!-- dubbo采用spring配置方式，所以需要导入spring容器依赖 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.1.3.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
+  </dependencies>
+  
 </project>

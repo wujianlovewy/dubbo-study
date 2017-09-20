@@ -10,5 +10,7 @@ public interface UserService {
     public List<User> queryAll();
     
     public int updateProductStock(ProductBean productBean);
+    
+    public String generateId();
 
 }
