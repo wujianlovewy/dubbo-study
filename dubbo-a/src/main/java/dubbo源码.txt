@@ -1,0 +1,4 @@
+http://blog.csdn.net/linuu/article/details/52515212  --->一起写RPC框架
+http://blog.csdn.net/qq418517226/article/details/51906357 --->Dubbo通信模型
+http://blog.csdn.net/youaremoon/article/category/6085388 --->Dubbo源码
+http://www.cnblogs.com/ASPNET2008/p/6709900.html----->dubbo+zipkin调用链监控
