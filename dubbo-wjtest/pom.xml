@@ -6,10 +6,10 @@
 		<artifactId>dubbo-version</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>dubbo-test</artifactId>
+	<artifactId>dubbo-wjtest</artifactId>
 	<packaging>jar</packaging>
 
-	<name>dubbo-test</name>
+	<name>dubbo-wjtest</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
