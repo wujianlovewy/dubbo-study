@@ -21,7 +21,7 @@ import com.alibaba.dubbo.config.RegistryConfig;
  *
  */
 public class UserIDTest {
-	private static AtomicLong atomic = new AtomicLong();
+	private static AtomicLong atomic = new AtomicLong(Long.MAX_VALUE);
 	static String PARTTERN_STR = "yyyyMMddhhmmssSSS";
 	
 	//SimpleDateFormat线程不安全并且效率没有FastDateFormat高
@@ -30,12 +30,12 @@ public class UserIDTest {
 	
 	public static String generateId(){
 		String serialNumber = format.format(new Date());
-		long num = atomic.getAndIncrement();
-		return serialNumber+num;
+		long num = Math.abs(atomic.getAndIncrement()%9999);
+		return serialNumber+df.format(num);
 	}
 	
 	public static void main(String[] args) throws Exception{
-		testForUserID();
+		testMutiThread();
 	}
 	
 	public static void testForUserID(){
@@ -77,20 +77,20 @@ public class UserIDTest {
 	}
 	
 	public static void testMutiThread() throws Exception{
-		final UserService userService = getRemoteService(UserService.class);
-		int count = 10000;
+		//final UserService userService = getRemoteService(UserService.class);
+		int count = 10001;
 		final CountDownLatch end = new CountDownLatch(count);
 		final CountDownLatch start = new CountDownLatch(1);
-		long startTime = System.currentTimeMillis();
+		
 		for(int i=0;i<count;i++){
 			new Thread(){
 				@Override
 				public void run(){
 					try {
 						//start.await();
-						//UserIDTest.generateId();
+						System.out.println("userId:"+UserIDTest.generateId());
 						//System.out.println(userService.generateId());
-						userService.generateId();
+						//userService.generateId();
 						end.countDown();
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -99,7 +99,8 @@ public class UserIDTest {
 			}.start();
 		}
 		//start.countDown();
+		long startTime = System.currentTimeMillis();
 		end.await();
-		System.out.println(System.currentTimeMillis()-startTime);
+		System.out.println("总共耗时:"+(System.currentTimeMillis()-startTime));
 	}
 }
