@@ -47,7 +47,7 @@ public class DoubleBuffer{
 		if(this.entry.modCount >= this.entry.maxId){
 			while(this.entry.loadNext && this.entry.next==null){
 				//LockSupport.parkUntil(this, System.currentTimeMillis()+1);
-				LockSupport.parkNanos(10);
+				LockSupport.parkNanos(1);
 			}
 			System.out.println("当前号段【"+(this.entry.maxId-this.entry.step)+"-"+this.entry.maxId
 					+"】使用完切换成下个号段"+", "+System.currentTimeMillis());
@@ -66,13 +66,13 @@ public class DoubleBuffer{
 	}
 
 	public static void main(String[] args) {
-		testMultiThread();
+		testNormal();
 	}
 	
 	public static void testMultiThread(){
-		long size = 1000;
+		long size = 2000;
 		final DoubleBuffer db = new DoubleBuffer(size, DoubleBuffer.atomicLong.getAndAdd(size)); 
-		int count = 10000;
+		int count = 50000;
 		long startTime = System.currentTimeMillis();
 		final CountDownLatch latch = new CountDownLatch(count);
 		for(int i=0;i<count;i++){
@@ -95,10 +95,10 @@ public class DoubleBuffer{
 	}
 	
 	public static void testNormal(){
-		long size = 100;
+		long size = 1000;
 		DoubleBuffer db = new DoubleBuffer(size, DoubleBuffer.atomicLong.getAndAdd(size)); 
 		long startTime = System.currentTimeMillis();
-		for(int i=0;i<10000;i++){
+		for(int i=0;i<5000;i++){
 			System.out.println(db.take());
 		}
 		System.out.println("双Buffer获取订单号总共耗时: "+(System.currentTimeMillis()-startTime));
