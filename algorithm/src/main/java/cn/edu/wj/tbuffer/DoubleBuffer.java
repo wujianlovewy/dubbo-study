@@ -1,6 +1,7 @@
 package cn.edu.wj.tbuffer;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
@@ -65,6 +66,35 @@ public class DoubleBuffer{
 	}
 
 	public static void main(String[] args) {
+		testMultiThread();
+	}
+	
+	public static void testMultiThread(){
+		long size = 1000;
+		final DoubleBuffer db = new DoubleBuffer(size, DoubleBuffer.atomicLong.getAndAdd(size)); 
+		int count = 10000;
+		long startTime = System.currentTimeMillis();
+		final CountDownLatch latch = new CountDownLatch(count);
+		for(int i=0;i<count;i++){
+			new Thread(){
+				@Override
+				public void run(){
+					System.out.println(db.take());
+					latch.countDown();
+				}
+			}.start();
+			
+		}
+		try {
+			latch.await();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("双Buffer获取订单号总共耗时: "+(System.currentTimeMillis()-startTime));
+		db.destroy();
+	}
+	
+	public static void testNormal(){
 		long size = 100;
 		DoubleBuffer db = new DoubleBuffer(size, DoubleBuffer.atomicLong.getAndAdd(size)); 
 		long startTime = System.currentTimeMillis();
