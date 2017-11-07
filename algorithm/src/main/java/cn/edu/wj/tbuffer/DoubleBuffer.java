@@ -33,7 +33,7 @@ public class DoubleBuffer{
 		this.loadFactor = loadFactor;
 		this.entry = new Entry(modCount, null, size);
 		
-		this.executorService = Executors.newFixedThreadPool(1);
+		this.executorService = Executors.newSingleThreadExecutor();
 	}
 	
 	public synchronized Long take(){
