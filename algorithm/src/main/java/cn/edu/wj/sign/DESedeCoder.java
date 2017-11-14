@@ -31,7 +31,7 @@ public class DESedeCoder {
 		KeyGenerator kg=KeyGenerator.getInstance(KEY_ALGORITHM);
 		//初始化密钥生成器
 		kg.init(112);
-		//生成密钥
+		//生成密钥 
 		SecretKey secretKey=kg.generateKey();
 		//获取二进制密钥编码形式
 		return secretKey.getEncoded();
