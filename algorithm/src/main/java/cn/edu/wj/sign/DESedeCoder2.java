@@ -2,7 +2,6 @@ package cn.edu.wj.sign;
 
 import java.security.Key;
 import java.security.SecureRandom;
-import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -13,6 +12,16 @@ import javax.crypto.spec.DESedeKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
 
+/**
+ * 两种方式的区别，第一种就是使用你给定的key作为密钥，当与其他客户端进行通信，加解密不是由同一方操作的时候推荐使用，
+ * 第二种是根据你给的key来生成一个新的key，这个新的key才是真正加密时使用的key，所以如果用第一种加密出来的密文用第二种来解密，是解不出来的。
+　　另外，java中只提供了3倍长3des的算法，也就是key的长度必须是24字节，如果想要使用2倍长3des，
+        需要自己将后8个字节补全（就是将16个字节的前8个字节补到最后，变成24字节）。
+       如果提供的key不足24字节，将会报错，如果超过24字节，将会截取前24字节作为key）
+ * @author jwu
+ * 参考: https://www.cnblogs.com/wsss/p/6925090.html
+ * jvm内存:http://www.cnblogs.com/lewis0077/p/5143268.html
+ */
 public class DESedeCoder2 {
 
 	/**
@@ -25,7 +34,7 @@ public class DESedeCoder2 {
 	 * NoPadding---无填充
 	 * */
 	
-	public static final String CIPHER_ALGORITHM="DESede/ECB/PKCS5Padding";
+	public static final String CIPHER_ALGORITHM="DESede/ECB/NoPadding";
 	
 	/**
 	 * @return byte[] 二进制密钥
